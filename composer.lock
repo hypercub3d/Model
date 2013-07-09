@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/treshugart/Testes.git",
-                "reference": "fe0355aa01754195c565ca271c481a10d2047e3c"
+                "reference": "8f9d90d773cf19ec61fd497795f80f817ab1f002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/treshugart/Testes/zipball/fe0355aa01754195c565ca271c481a10d2047e3c",
-                "reference": "fe0355aa01754195c565ca271c481a10d2047e3c",
+                "url": "https://api.github.com/repos/treshugart/Testes/zipball/8f9d90d773cf19ec61fd497795f80f817ab1f002",
+                "reference": "8f9d90d773cf19ec61fd497795f80f817ab1f002",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "testing",
                 "unit"
             ],
-            "time": "2013-07-09 18:17:16"
+            "time": "2013-07-09 19:30:13"
         }
     ],
     "aliases": [
