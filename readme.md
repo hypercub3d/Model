@@ -20,12 +20,12 @@ Entities
 To create an entity, all you really have to do is extend the base entity class:
 
     <?php
-    
+
     namespace Model\Entity;
-    
-    class Content extends Entity
+
+    class Content extends EntityAbstract
     {
-        
+
     }
 
 ### Configuration
@@ -226,7 +226,7 @@ e.g.
          *
          * @filter from db using Model\Filter\From\Billing\CodeGroup\Db
          */
-        class CodeGroup extends Entity
+        class CodeGroup extends EntityAbstract
         ...
 
 Using a filter when instantiating an entity should look something like this:
@@ -262,7 +262,7 @@ You can also use the `@validator` tag to apply it to an entity
     /**
      * @validator Model\Validator\EnsureCreatedIsBeforeUpdated The content ":title" cannot be created before it is updated.
      */
-    class Content extends Model\Entity\Entity
+    class Content extends Model\Entity\EntityAbstract
     {
 
     }
@@ -277,7 +277,7 @@ Or you can use annotations:
 
     /**
      * @var Model\Vo\String
-     * 
+     *
      * @validator Zend\Validator\NotEmpty The user's name must not be empty.
      */
     public $name;
@@ -291,21 +291,21 @@ Validators allow anything that is `callable`. Additionally, when using annotatio
 You'll notice the use of the `Timestampable` trait. This trait is not included in the library, however, it exemplifies how you can use traits to mix functionality into your entities. We assume the trait has the following definition:
 
     <?php
-    
+
     namespace Model\Behavior;
-    
+
     trait Timestampable
     {
         /**
          * @var Model\Vo\Datetime
-         * 
+         *
          * @validator Zend\Validator\Date The created date ":created" is not valid.
          */
         public $created;
-        
+
         /**
          * @var Model\Vo\Datetime
-         * 
+         *
          * @validator Zend\Validator\Date The last updated date ":updated" is not valid.
          */
         public $updated;
@@ -319,16 +319,16 @@ As described earlier, relationships are defined using the `HasOne` and `HasMany`
 
     namespace Model\Entity;
 
-    class Content extends Entity
+    class Content extends EntityAbstract
     {
         /**
          * @var Model\Vo\HasOne 'Model\Entity\Content\User'
          */
         public $user;
-        
+
         /**
          * The the past modifications of the entity.
-         * 
+         *
          * @var Model\Vo\HasMany 'Model\Entity\Content\Modification'
          */
         public $modifications;
@@ -337,14 +337,14 @@ As described earlier, relationships are defined using the `HasOne` and `HasMany`
 By adding relationships, you ensure that if the specified property is set or accessed, that it is an instance of the specified class.
 
     <?php
-    
+
     use Entity\Content;
-    
+
     $entity = new Content;
-    
+
     // instance of Model\Entity\Content\User
     $user = $entity->user;
-    
+
     // instance of Model\EntitySet containing instances of Model\Entity\Content\Modification
     $modifications = $entity->modifications;
 
@@ -356,10 +356,10 @@ And you can even pass any traversable item:
 
     $user       = new stdClass;
     $user->name = 'Me';
-    
+
     // applying a stdClass
     $entity->user = $user;
-    
+
     // entity sets work the same way
     $entity->modifications = array(
         array('name' => 'Me'),
@@ -369,7 +369,7 @@ And you can even pass any traversable item:
 ### Validating an Entity
 
 When it comes time to validate your entity, you have two options. First, you can simply validate the entity and get it's error messages.
-    
+
     if ($errors = $entity->validate()) {
         // do some error handling
     }
@@ -397,33 +397,33 @@ This allows you to catch that somewhere in your code.
 You can handle that any way you want using the methods in the exception:
 
     <?php
-    
+
     use Model\Validator\ValidatorException;
-    
+
     // allows a main message
     $exception = new ValidatorException('The following errors happened:');
-    
+
     // allows you to add messages
     $exception->addMessage('my first message');
     $exception->addMessages([
         'my second message',
         'my third message'
     ]);
-    
+
     // implements IteratorAggregate
     foreach ($exception as $message) {
         ...
     }
-    
+
     // The following errors happened:
-    // 
+    //
     // - my first message
     // - my second message
     // - my third message
-    // 
+    //
     // [stack trace goes here]
     echo $exception;
-    
+
     // or you can just throw it
     throw $exception;
 
@@ -433,22 +433,22 @@ Repositories
 Authoring repositories is fairly straight forward:
 
     <?php
-    
+
     namespace Model\Repository;
     use Model\Entity;
-    
+
     class Content
     {
         public function getById($id)
         {
             ...
         }
-        
+
         public function getByTitle($title)
         {
             ...
         }
-        
+
         public function save(Entity\Content $content)
         {
             ...

@@ -3,7 +3,7 @@
 namespace Model\Configurator\DocComment\Entity\Tag;
 use InvalidArgumentException;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 use ReflectionClass;
 
 class Configure

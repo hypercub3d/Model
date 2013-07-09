@@ -1,13 +1,13 @@
 <?php
 
 namespace Provider;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 
 class ReferenceRepository extends BaseRepository
 {
     protected function getByContentId($id)
     {
-        return new Set('Provider\ReferenceEntity', [[
+        return new Collection('Provider\ReferenceEntity', [[
             'id'          => 1,
             'contentId'   => $id,
             'description' => 'Wikipedia reference 1',

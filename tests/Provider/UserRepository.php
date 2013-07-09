@@ -1,13 +1,13 @@
 <?php
 
 namespace Provider;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 
 class UserRepository extends BaseRepository
 {
     public function getContent()
     {
-        return new Set('Provider\ContentEntity', [[
+        return new Collection('Provider\ContentEntity', [[
             'id'   => 1,
             'name' => 'Proxy content 1'
         ], [
@@ -15,7 +15,7 @@ class UserRepository extends BaseRepository
             'name' => 'Proxy content 2'
         ]]);
     }
-    
+
     public function isLastAdministrator()
     {
         return true;

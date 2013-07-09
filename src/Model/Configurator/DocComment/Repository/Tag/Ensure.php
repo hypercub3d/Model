@@ -3,7 +3,7 @@
 namespace Model\Configurator\DocComment\Repository\Tag;
 use InvalidArgumentException;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 use Model\Repository\RepositoryAbstract;
 use ReflectionMethod;
 
@@ -36,7 +36,7 @@ class Ensure
                 get_class($repository)
             ));
         }
-        
+
         if ($info['set']) {
             return $this->generateFilterForSet($info['entity'], $info['filter']);
         }
@@ -47,7 +47,7 @@ class Ensure
     private function generateFilterForSet($entity, $filter)
     {
         return function($value) use ($entity, $filter) {
-            return new Set($entity, $value, $filter);
+            return new Collection($entity, $value, $filter);
         };
     }
 

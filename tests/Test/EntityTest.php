@@ -2,7 +2,7 @@
 
 namespace Test;
 use Exception;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 use Model\Validator\ValidatorException;
 use Provider\CommentEntity;
 use Provider\ContentEntity;

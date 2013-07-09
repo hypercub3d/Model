@@ -22,6 +22,6 @@
         "nekoo/EventEmitter": "1.0.*"
     },
     "require-dev": {
-        "treshugart/testes": "dev-master"
+        "treshugart/testes": "1.0.x-dev"
     }
 }

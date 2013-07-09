@@ -6,7 +6,7 @@ namespace Provider\Filter;
  * @filter from ns1 using Provider\Filter\TestEntityFromFilter.
  * @filter to ns1 using Provider\Filter\TestEntityToFilter.
  */
-class TestEntity extends \Model\Entity\Entity
+class TestEntity extends \Model\Entity\EntityAbstract
 {
     /**
      * @vo Model\Vo\Boolean
@@ -20,7 +20,7 @@ class TestEntity extends \Model\Entity\Entity
 
     /**
      * @vo Model\Vo\Boolean
-     * 
+     *
      * @filter from ns1.ns2 using Provider\Filter\TestVoFromFilter.
      * @filter to ns1.ns2 using Provider\Filter\TestVoToFilter.
      */
@@ -28,7 +28,7 @@ class TestEntity extends \Model\Entity\Entity
 
     /**
      * @vo Model\Vo\Boolean
-     * 
+     *
      * @filter from ns1.ns2 using Provider\Filter\TestVoFromFilter.
      * @filter to ns1.ns2 using Provider\Filter\TestVoToFilter.
      */

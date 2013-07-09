@@ -1,32 +1,120 @@
 <?php
 
 namespace Model\Entity;
-use Closure;
+use ArrayIterator;
 use InvalidArgumentException;
-use Model\Filter\Filterable;
-use Model\Filter\FilterableInterface;
-use Model\Validator\Validatable;
-use Model\Validator\ValidatableInterface;
 use RuntimeException;
 
-class Set implements AccessibleInterface, ValidatableInterface
+class Collection implements AccessibleInterface
 {
-    use Validatable;
-
     private $class;
 
     private $data = [];
 
-    public function __construct($class, $data = [], $filterToUse = null)
+    public function __construct($class, $data = [], $mapper = null)
     {
         $this->class = $class;
-        $this->from($data, $filterToUse);
+        $this->fill($data, $filterToUse);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (!$value instanceof Entity) {
+            $value = $this->ensureEntity($value);
+        }
+
+        $offset = is_numeric($offset) ? (int) $offset : count($this->data);
+
+        $this->data[$offset] = $value;
+
+        return $this;
+    }
+
+    public function offsetGet($offset)
+    {
+        if ($this->offsetExists($offset)) {
+            return $this->data[$offset];
+        }
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        if ($this->offsetExists($offset)) {
+            unset($this->data[$offset]);
+            $this->data = array_values($this->data);
+        }
+
+        return $this;
+    }
+
+    public function count()
+    {
+        return count($this->data);
+    }
+
+    public function getIterator()
+    {
+        return new ArrayIterator($this->data);
     }
 
     public function clear()
     {
         $this->data = [];
         return $this;
+    }
+
+    public function fill($data, $mapper = null)
+    {
+        if (is_array($data) || is_object($data)) {
+            foreach ($data as $k => $v) {
+                $this->offsetSet(null, $this->ensureEntity($v, $mapper));
+            }
+        }
+
+        return $this;
+    }
+
+    public function toArray($mapper = null)
+    {
+        $array = [];
+
+        foreach ($this as $k => $v) {
+            $array[$k] = $v->toArray($mapper);
+        }
+
+        return $array;
+    }
+
+    public function assert()
+    {
+
+    }
+
+    public function validate()
+    {
+
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            'class'      => $this->class,
+            'data'       => $this->to(),
+            'validators' => $this->validators
+        ]);
+    }
+
+    public function unserialize($data)
+    {
+        $data             = unserialize($data);
+        $this->class      = $data['class'];
+        $this->validators = $data['validators'];
+        $this->from($data['data']);
     }
 
     public function isRepresenting($class)
@@ -52,70 +140,6 @@ class Set implements AccessibleInterface, ValidatableInterface
         }
 
         return $this;
-    }
-
-    public function validate()
-    {
-        $messages   = [];
-        $validators = $this->getValidators();
-
-        $this->walk(function($entity) use (&$messages, $validators) {
-            foreach ($validators as $message => $validator) {
-                $messages = array_merge($messages, $entity->validate());
-            }
-        });
-
-        return $messages;
-    }
-
-    public function from($data, $filterToUse = null)
-    {
-        if (is_array($data) || is_object($data)) {
-            foreach ($data as $k => $v) {
-                $this->offsetSet(null, $this->ensureEntity($v, $filterToUse));
-            }
-        }
-
-        return $this;
-    }
-
-    public function to($filterToUse = null)
-    {
-        $array = [];
-
-        foreach ($this as $k => $v) {
-            $array[$k] = $v->to($filterToUse);
-        }
-
-        return $array;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function fill($data, $mapper = null)
-    {
-        if (is_array($data) || is_object($data)) {
-            foreach ($data as $k => $v) {
-                $this->offsetSet(null, $this->ensureEntity($v, $mapper));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function toArray($mapper = null)
-    {
-        $array = [];
-
-        foreach ($this as $k => $v) {
-            $array[$k] = $v->toArray($mapper);
-        }
-
-        return $array;
     }
 
     public function walk($callback)
@@ -294,90 +318,6 @@ class Set implements AccessibleInterface, ValidatableInterface
         if ($this->offsetExists($lastIndex)) {
             return $this->offsetGet($lastIndex);
         }
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        if (!$value instanceof Entity) {
-            $value = $this->ensureEntity($value);
-        }
-
-        $offset = is_numeric($offset) ? (int) $offset : count($this->data);
-
-        $this->data[$offset] = $value;
-
-        return $this;
-    }
-
-    public function offsetGet($offset)
-    {
-        if ($this->offsetExists($offset)) {
-            return $this->data[$offset];
-        }
-    }
-
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    public function offsetUnset($offset)
-    {
-        if ($this->offsetExists($offset)) {
-            unset($this->data[$offset]);
-            $this->data = array_values($this->data);
-        }
-
-        return $this;
-    }
-
-    public function count()
-    {
-        return count($this->data);
-    }
-
-    public function current()
-    {
-        return $this->offsetGet($this->key());
-    }
-
-    public function key()
-    {
-        return key($this->data);
-    }
-
-    public function next()
-    {
-        next($this->data);
-        return $this;
-    }
-
-    public function rewind()
-    {
-        reset($this->data);
-        return $this;
-    }
-
-    public function valid()
-    {
-        return !is_null($this->key());
-    }
-
-    public function serialize()
-    {
-        return serialize([
-            'class'      => $this->class,
-            'data'       => $this->to(),
-            'validators' => $this->validators
-        ]);
-    }
-
-    public function unserialize($data)
-    {
-        $data             = unserialize($data);
-        $this->class      = $data['class'];
-        $this->validators = $data['validators'];
-        $this->from($data['data']);
     }
 
     private function ensureEntity($item, $filterToUse = null)

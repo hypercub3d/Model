@@ -1,8 +1,8 @@
 <?php
 
 namespace Test;
-use Model\Entity\Entity;
-use Model\Entity\Set;
+use Model\Entity\EntityAbstract;
+use Model\Entity\Collection;
 use Provider\Filter\TestRepository;
 
 class FilterTest extends \Testes\Test\UnitAbstract

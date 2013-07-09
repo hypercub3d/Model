@@ -1,7 +1,7 @@
 <?php
 
 namespace Provider;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 
 /**
  * @mapper testMapper Provider\ContentMapper
@@ -9,7 +9,7 @@ use Model\Entity\Entity;
  * @validator Provider\ContentValidator Test error message.
  * @validator contentValidator          Test error message.
  */
-class ContentEntity extends Entity
+class ContentEntity extends EntityAbstract
 {
     public $id = [
         'type' => 'string'

@@ -3,7 +3,7 @@
 namespace Model\Configurator\DocComment\Entity\Tag;
 use Model\Configurator\DocComment\DocTagInterface;
 use Model\Mapper\MapperArray;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 use ReflectionClass;
 
 class Mapper
@@ -15,12 +15,12 @@ class Mapper
         $parts = explode(' ', $tag->getValue());
         $name  = array_shift($parts);
         $key   = $class->getName() . $name;
-        
+
         if (isset(self::$cache[$key])) {
             $entity->setMapper($name, self::$cache[$key]);
             return;
         }
-        
+
         $mapArr = new MapperArray;
 
         foreach ($parts as $class) {
@@ -28,9 +28,9 @@ class Mapper
                 $mapArr->add(new $class);
             }
         }
-        
+
         $entity->setMapper($name, $mapArr);
-        
+
         self::$cache[$key] = $mapArr;
     }
 }

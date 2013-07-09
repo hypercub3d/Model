@@ -1,9 +1,9 @@
 <?php
 
 namespace Provider;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 
-class ReferenceEntity extends Entity
+class ReferenceEntity extends EntityAbstract
 {
     /**
      * @vo Model\Vo\String

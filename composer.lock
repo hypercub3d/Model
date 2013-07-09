@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d873a13de2616c62ace40e2a65f21495",
+    "hash": "9545dd10eb8a4f93de7a065f2e02c050",
     "packages": [
         {
             "name": "nekoo/EventEmitter",
@@ -51,7 +51,7 @@
     "packages-dev": [
         {
             "name": "treshugart/testes",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/treshugart/Testes.git",

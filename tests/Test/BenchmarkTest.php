@@ -2,7 +2,7 @@
 
 namespace Test;
 use Fixture\BenchmarkData;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 use Testes\Test\UnitAbstract;
 
 class BenchmarkTest extends UnitAbstract
@@ -14,7 +14,7 @@ class BenchmarkTest extends UnitAbstract
 
     public function hydration()
     {
-        new Set('Provider\Benchmark\Person', $this->buildData());
+        new Collection('Provider\Benchmark\Person', $this->buildData());
     }
 
     public static function buildData($numPeople = 100, $numAddressesPerPerson = 10)

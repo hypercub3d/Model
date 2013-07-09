@@ -2,7 +2,7 @@
 
 namespace Model\Configurator\DocComment\Vo\Tag;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 use ReflectionProperty;
 
 class Vo
@@ -23,7 +23,7 @@ class Vo
             $class = self::$classCache[$cacheKey] = $this->generateClass($tag, $entity);
             $value = self::$valueCache[$cacheKey] = $this->generateValue($property);
         }
-        
+
         $entity->setVo($name, $class);
 
         if ($value !== null) {
@@ -40,10 +40,10 @@ class Vo
             } else {
                 $class = new $parts[0];
             }
-            
+
             return $class;
         };
-        
+
         $class = $class->bindTo($entity);
         $class = $class();
 

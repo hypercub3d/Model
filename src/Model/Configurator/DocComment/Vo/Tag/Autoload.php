@@ -2,7 +2,7 @@
 
 namespace Model\Configurator\DocComment\Vo\Tag;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 use ReflectionProperty;
 
 class Autoload

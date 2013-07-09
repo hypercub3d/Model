@@ -1,12 +1,12 @@
 <?php
 
 namespace Provider;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 
 /**
  * @filter to mongoId using Model\Filter\Generic\RemoveMongoId.
  */
-class MongoEntity extends Entity
+class MongoEntity extends EntityAbstract
 {
     /**
      * @vo Model\Vo\String

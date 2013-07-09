@@ -5,8 +5,8 @@ use InvalidArgumentException;
 use LogicException;
 use Model\Cache\CacheInterface;
 use Model\Configurator\DocComment\Repository\Configurator;
-use Model\Entity\Entity;
-use Model\Entity\Set;
+use Model\Entity\EntityAbstract;
+use Model\Entity\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -308,13 +308,13 @@ abstract class RepositoryAbstract
             $args = $name;
             $name = self::DEFAULT_NAME;
         }
-        
+
         $self = get_called_class() . $name;
 
         if (isset(self::$instances[$self]) && !$args) {
             return self::$instances[$self];
         }
-        
+
         return self::initInstance($name, $args);
     }
 

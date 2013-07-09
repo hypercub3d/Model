@@ -2,12 +2,11 @@
 
 namespace Model\Entity;
 use ArrayIterator;
-use IteratorAggregate;
 use ReflectionClass;
 use ReflectionProperty;
 use UnexpectedValueException;
 
-abstract class Entity implements IteratorAggregate
+abstract class EntityAbstract implements AccessibleInterface
 {
     private $data = [];
 
@@ -47,6 +46,31 @@ abstract class Entity implements IteratorAggregate
         }
     }
 
+    public function offsetSet($name, $value)
+    {
+        $this->__set($name, $value);
+    }
+
+    public function offsetGet($name)
+    {
+        return $this->__get($name);
+    }
+
+    public function offsetExists($name)
+    {
+        return $this->__isset($name);
+    }
+
+    public function offsetUnset($name)
+    {
+        $this->__unset($name);
+    }
+
+    public function count()
+    {
+        return count($this->data);
+    }
+
     public function getIterator()
     {
         return new ArrayIterator($this->data);
@@ -76,6 +100,26 @@ abstract class Entity implements IteratorAggregate
         }
 
         return $data;
+    }
+
+    public function assert()
+    {
+
+    }
+
+    public function validate()
+    {
+
+    }
+
+    public function serialize()
+    {
+
+    }
+
+    public function unserialize($serialized)
+    {
+
     }
 
     public function reset()

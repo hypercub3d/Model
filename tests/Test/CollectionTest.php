@@ -1,7 +1,7 @@
 <?php
 
 namespace Test;
-use Model\Entity\Set;
+use Model\Entity\Collection;
 use Provider\ContentEntity;
 use Testes\Test\UnitAbstract;
 
@@ -19,7 +19,7 @@ class SetTest extends UnitAbstract
 
     public function setUp()
     {
-        $this->set = new Set('Provider\ContentEntity');
+        $this->set = new Collection('Provider\ContentEntity');
 
         for ($i = 1; $i <= 10; $i++) {
             $this->set[] = new ContentEntity([

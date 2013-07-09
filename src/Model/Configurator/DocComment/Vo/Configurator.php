@@ -2,7 +2,7 @@
 
 namespace Model\Configurator\DocComment\Vo;
 use Model\Configurator\DocComment\ConfiguratorAbstract;
-use Model\Entity\Entity;
+use Model\Entity\EntityAbstract;
 use ReflectionClass;
 
 class Configurator extends ConfiguratorAbstract
