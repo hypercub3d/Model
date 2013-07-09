@@ -5,40 +5,35 @@ use Model\Entity\Entity;
 
 /**
  * @mapper testMapper Provider\ContentMapper
- * 
+ *
  * @validator Provider\ContentValidator Test error message.
  * @validator contentValidator          Test error message.
  */
 class ContentEntity extends Entity
 {
-    /**
-     * @vo Model\Vo\String
-     */
-    public $id;
-    
-    /**
-     * @vo Model\Vo\String
-     * 
-     * @validator validateNameExists Testing :id.
-     */
-    public $name;
-    
-    /**
-     * @vo Model\Vo\HasOne 'Provider\UserEntity'
-     */
-    public $user;
-    
-    /**
-     * @vo Model\Vo\HasMany 'Provider\CommentEntity'
-     */
-    public $comments;
+    public $id = [
+        'type' => 'string'
+    ];
 
-    /**
-     * @vo Model\Vo\HasMany 'Provider\ReferenceEntity'
-     *
-     * @autoload joinReferences
-     */
-    public $references;
+    public $name = [
+        'type' => 'string'
+    ];
+
+    public $user = [
+        'type'  => 'has_one',
+        'class' => 'Provider\UserEntity'
+    ];
+
+    public $comments = [
+        'type'  => 'has_many',
+        'class' => 'Provider\CommentEntity'
+    ];
+
+    public $references = [
+        'type'     => 'has_many',
+        'class'    => 'Provider\ReferenceEntity',
+        'autoload' => 'ReferenceRepository::getByContentId'
+    ];
 
     public static $validatedUsingClass = false;
 

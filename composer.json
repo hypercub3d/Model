@@ -18,7 +18,8 @@
     "license": "MIT",
     "name": "treshugart/model",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "nekoo/EventEmitter": "1.0.*"
     },
     "require-dev": {
         "treshugart/testes": "dev-master"
