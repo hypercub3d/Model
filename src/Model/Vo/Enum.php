@@ -2,7 +2,7 @@
 
 namespace Model\Vo;
 
-class Enum extends VoAbstract
+class Enum
 {
     private $values;
 
@@ -11,7 +11,7 @@ class Enum extends VoAbstract
         $this->values = $values;
     }
 
-    public function translate($value)
+    public function __invoke($value)
     {
         if (in_array($value, $this->values)) {
             return $value;

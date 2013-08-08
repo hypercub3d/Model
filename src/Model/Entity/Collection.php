@@ -1,17 +1,14 @@
 <?php
 
 namespace Model\Entity;
-use Closure;
 use InvalidArgumentException;
-use Model\Filter\Filterable;
-use Model\Filter\FilterableInterface;
-use Model\Validator\Validatable;
-use Model\Validator\ValidatableInterface;
+use Model\Validator\Assertable;
+use Model\Validator\AssertableInterface;
 use RuntimeException;
 
-class Set implements AccessibleInterface, ValidatableInterface
+class Collection implements AccessibleInterface
 {
-    use Validatable;
+    use Assertable;
 
     private $class;
 
@@ -85,34 +82,6 @@ class Set implements AccessibleInterface, ValidatableInterface
 
         foreach ($this as $k => $v) {
             $array[$k] = $v->to($filterToUse);
-        }
-
-        return $array;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function fill($data, $mapper = null)
-    {
-        if (is_array($data) || is_object($data)) {
-            foreach ($data as $k => $v) {
-                $this->offsetSet(null, $this->ensureEntity($v, $mapper));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function toArray($mapper = null)
-    {
-        $array = [];
-
-        foreach ($this as $k => $v) {
-            $array[$k] = $v->toArray($mapper);
         }
 
         return $array;
@@ -336,31 +305,9 @@ class Set implements AccessibleInterface, ValidatableInterface
         return count($this->data);
     }
 
-    public function current()
+    public function getIterator()
     {
-        return $this->offsetGet($this->key());
-    }
-
-    public function key()
-    {
-        return key($this->data);
-    }
-
-    public function next()
-    {
-        next($this->data);
-        return $this;
-    }
-
-    public function rewind()
-    {
-        reset($this->data);
-        return $this;
-    }
-
-    public function valid()
-    {
-        return !is_null($this->key());
+        return new \ArrayIterator($this->data);
     }
 
     public function serialize()

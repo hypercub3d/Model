@@ -3,7 +3,7 @@
 namespace Model\Configurator\DocComment\Vo\Tag;
 use InvalidArgumentException;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityInterface;
 use ReflectionProperty;
 use Zend\Validator\Validator as Zend2xValidator;
 use Zend_Validate_Interface as Zend1xValidator;
@@ -12,13 +12,13 @@ class Validator
 {
     private $cache = [];
 
-    public function __invoke(DocTagInterface $tag, ReflectionProperty $property, Entity $entity)
+    public function __invoke(DocTagInterface $tag, ReflectionProperty $property, EntityInterface $entity)
     {
         $parts     = explode(' ', $tag->getValue(), 2);
         $validator = $this->resolveValidator($parts[0], $entity);
         $message   = isset($parts[1]) ? $parts[1] : null;
         $message   = $message ?: 'Value Object "' . $property->getName() . '" is not valid.';
-        
+
         if (!$entity->hasVo($property->getName())) {
             throw new InvalidArgumentException(sprintf(
                 'You cannot apply the @validator tag to "%s::$%s" because it has not been given a VO yet.',
@@ -26,7 +26,7 @@ class Validator
                 $property->getName()
             ));
         }
-        
+
         $entity->getVo($property->getName())->addValidator($message, $validator);
     }
 

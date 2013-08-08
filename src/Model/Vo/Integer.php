@@ -2,9 +2,9 @@
 
 namespace Model\Vo;
 
-class Integer extends VoAbstract
+class Integer
 {
-    public function translate($value)
+    public function __invoke($value)
     {
         return (int) $value;
     }

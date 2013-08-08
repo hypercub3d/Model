@@ -4,12 +4,12 @@ namespace Model\Vo;
 use DateTime;
 use DateTimeZone;
 
-class Date extends VoAbstract
+class Date
 {
     public $config = [];
 
     public static $defaultConfig = [
-        'format'   => DATE_RFC822,
+        'format' => DATE_RFC822,
         'timezone' => null
     ];
 
@@ -18,12 +18,7 @@ class Date extends VoAbstract
         $this->config = array_merge(self::$defaultConfig, $config);
     }
 
-    public function init()
-    {
-        return $this->datetime()->format($this->config['format']);
-    }
-
-    public function translate($value)
+    public function __invoke($value)
     {
         $datetime = $this->datetime();
 

@@ -20,12 +20,12 @@ Entities
 To create an entity, all you really have to do is extend the base entity class:
 
     <?php
-    
+
     namespace Model\Entity;
-    
+
     class Content extends Entity
     {
-        
+
     }
 
 ### Configuration
@@ -277,7 +277,7 @@ Or you can use annotations:
 
     /**
      * @var Model\Vo\String
-     * 
+     *
      * @validator Zend\Validator\NotEmpty The user's name must not be empty.
      */
     public $name;
@@ -291,21 +291,21 @@ Validators allow anything that is `callable`. Additionally, when using annotatio
 You'll notice the use of the `Timestampable` trait. This trait is not included in the library, however, it exemplifies how you can use traits to mix functionality into your entities. We assume the trait has the following definition:
 
     <?php
-    
+
     namespace Model\Behavior;
-    
+
     trait Timestampable
     {
         /**
          * @var Model\Vo\Datetime
-         * 
+         *
          * @validator Zend\Validator\Date The created date ":created" is not valid.
          */
         public $created;
-        
+
         /**
          * @var Model\Vo\Datetime
-         * 
+         *
          * @validator Zend\Validator\Date The last updated date ":updated" is not valid.
          */
         public $updated;
@@ -325,10 +325,10 @@ As described earlier, relationships are defined using the `HasOne` and `HasMany`
          * @var Model\Vo\HasOne 'Model\Entity\Content\User'
          */
         public $user;
-        
+
         /**
          * The the past modifications of the entity.
-         * 
+         *
          * @var Model\Vo\HasMany 'Model\Entity\Content\Modification'
          */
         public $modifications;
@@ -337,14 +337,14 @@ As described earlier, relationships are defined using the `HasOne` and `HasMany`
 By adding relationships, you ensure that if the specified property is set or accessed, that it is an instance of the specified class.
 
     <?php
-    
+
     use Entity\Content;
-    
+
     $entity = new Content;
-    
+
     // instance of Model\Entity\Content\User
     $user = $entity->user;
-    
+
     // instance of Model\EntitySet containing instances of Model\Entity\Content\Modification
     $modifications = $entity->modifications;
 
@@ -356,10 +356,10 @@ And you can even pass any traversable item:
 
     $user       = new stdClass;
     $user->name = 'Me';
-    
+
     // applying a stdClass
     $entity->user = $user;
-    
+
     // entity sets work the same way
     $entity->modifications = array(
         array('name' => 'Me'),
@@ -369,7 +369,7 @@ And you can even pass any traversable item:
 ### Validating an Entity
 
 When it comes time to validate your entity, you have two options. First, you can simply validate the entity and get it's error messages.
-    
+
     if ($errors = $entity->validate()) {
         // do some error handling
     }
@@ -397,33 +397,33 @@ This allows you to catch that somewhere in your code.
 You can handle that any way you want using the methods in the exception:
 
     <?php
-    
+
     use Model\Validator\ValidatorException;
-    
+
     // allows a main message
     $exception = new ValidatorException('The following errors happened:');
-    
+
     // allows you to add messages
     $exception->addMessage('my first message');
     $exception->addMessages([
         'my second message',
         'my third message'
     ]);
-    
+
     // implements IteratorAggregate
     foreach ($exception as $message) {
         ...
     }
-    
+
     // The following errors happened:
-    // 
+    //
     // - my first message
     // - my second message
     // - my third message
-    // 
+    //
     // [stack trace goes here]
     echo $exception;
-    
+
     // or you can just throw it
     throw $exception;
 
@@ -433,22 +433,22 @@ Repositories
 Authoring repositories is fairly straight forward:
 
     <?php
-    
+
     namespace Model\Repository;
     use Model\Entity;
-    
+
     class Content
     {
         public function getById($id)
         {
             ...
         }
-        
+
         public function getByTitle($title)
         {
             ...
         }
-        
+
         public function save(Entity\Content $content)
         {
             ...
@@ -467,7 +467,7 @@ Multiple different backends are supllied under the `Model\Cache` namespace.
 
 Probably the most popular option and easy to use. The PHP Memcache PECL [extension](http://php.net/memcache) is used under the hood, so make sure you have it installed.
 
-    $entity->setCacheDriver('Memcache', new Model\Cache\Memcache([
+    $repository->setCacheDriver('Memcache', new Model\Cache\Memcache([
         'servers' => [[
             'host' => 'localhost',
             'port' => 11211
@@ -478,7 +478,7 @@ Probably the most popular option and easy to use. The PHP Memcache PECL [extensi
 
 MongoDB has been gaining a lot of popularity. It's speed being on-par with memcache and it's flexible structure make it a very good solution for caching. The PHP Mongo PECL [extension](http://php.net/mongo) is used.
 
-    $entity->setCacheDriver('Mongo', new Model\Cache\Mongo([
+    $repository->setCacheDriver('Mongo', new Model\Cache\Mongo([
         'db'         => 'cache',
         'collection' => 'cache',
         'dsn'        => null,
@@ -490,7 +490,7 @@ MongoDB has been gaining a lot of popularity. It's speed being on-par with memca
 
 The PHP cache driver simply stores the value in memory for the current script's lifecycle. Currently the lifetime value is ignored.
 
-    $entity->setCacheDriver('PHP', new Model\Cache\Php);
+    $repository->setCacheDriver('PHP', new Model\Cache\Php);
 
 In the examples, cache drivers are applied to entities and given a name inside of the `init()` method. These drivers can now be referenced from other repository methods using annotations. The annotations are given a fluid syntax just as if you were writing a sentence.
 

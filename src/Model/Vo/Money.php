@@ -2,9 +2,9 @@
 
 namespace Model\Vo;
 
-class Money extends VoAbstract
+class Money
 {
-    public function translate($value)
+    public function __invoke($value)
     {
         return (float) number_format($value, 2);
     }

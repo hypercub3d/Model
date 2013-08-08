@@ -3,7 +3,7 @@
 namespace Model\Configurator\DocComment\Entity\Tag;
 use InvalidArgumentException;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityInterface;
 use ReflectionClass;
 use Zend\Validator\Validator as Zend2xValidator;
 use Zend_Validate_Interface as Zend1xValidator;
@@ -12,7 +12,7 @@ class Validator
 {
     private $cache = [];
 
-    public function __invoke(DocTagInterface $tag, ReflectionClass $class, Entity $entity)
+    public function __invoke(DocTagInterface $tag, ReflectionClass $class, EntityInterface $entity)
     {
         $parts     = explode(' ', $tag->getValue(), 2);
         $validator = $this->resolveValidator($parts[0], $entity);

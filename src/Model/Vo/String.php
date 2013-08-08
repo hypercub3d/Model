@@ -2,10 +2,10 @@
 
 namespace Model\Vo;
 
-class String extends VoAbstract
+class String
 {
-    public function translate($value)
-    {
-        return (string) $value;
-    }
+  public function __invoke($value)
+  {
+    return (string) $value;
+  }
 }

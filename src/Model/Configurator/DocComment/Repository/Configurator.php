@@ -2,7 +2,7 @@
 
 namespace Model\Configurator\DocComment\Repository;
 use Model\Configurator\DocComment\ConfiguratorAbstract;
-use Model\Repository\RepositoryAbstract;
+use Model\Repository\RepositoryInterface;
 use ReflectionClass;
 
 class Configurator extends ConfiguratorAbstract
@@ -10,10 +10,12 @@ class Configurator extends ConfiguratorAbstract
     public function __construct()
     {
         $this->addTagHandler('cache', new Tag\Cache);
-        $this->addTagHandler('ensure', new Tag\Ensure);
+        $this->addTagHandler('join', new Tag\Join);
+        $this->addTagHandler('many', new Tag\Many);
+        $this->addTagHandler('one', new Tag\One);
     }
 
-    public function __invoke(RepositoryAbstract $repository)
+    public function __invoke(RepositoryInterface $repository)
     {
         $reflector = new ReflectionClass($repository);
 

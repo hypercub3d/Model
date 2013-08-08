@@ -2,9 +2,9 @@
 
 namespace Model\Vo;
 
-class Float extends VoAbstract
+class Float
 {
-    public function translate($value)
+    public function __invoke($value)
     {
         return (float) $value;
     }

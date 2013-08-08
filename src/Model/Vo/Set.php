@@ -2,15 +2,15 @@
 
 namespace Model\Vo;
 
-class Set extends VoAbstract
+class Set
 {
-    public function translate($value)
+    public function __invoke($value)
     {
         if (is_array($value)) {
             return $value;
         }
 
-        if ($value instanceof Traversable) {
+        if ($value instanceof \Traversable) {
             return iterator_to_array($value);
         }
 

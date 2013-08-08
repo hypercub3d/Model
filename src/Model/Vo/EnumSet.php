@@ -2,7 +2,7 @@
 
 namespace Model\Vo;
 
-class EnumSet extends VoAbstract
+class EnumSet
 {
     private $values;
 
@@ -11,7 +11,7 @@ class EnumSet extends VoAbstract
         $this->values = $values;
     }
 
-    public function translate($value)
+    public function __invoke($value)
     {
         if (!is_array($value)) {
             return;

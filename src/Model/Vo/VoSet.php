@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use RuntimeException;
 
-class VoSet extends VoAbstract
+class VoSet
 {
     private $class;
 
@@ -14,7 +14,7 @@ class VoSet extends VoAbstract
         $this->class = (new ReflectionClass($class))->newInstanceArgs($args);
     }
 
-    public function translate($value)
+    public function __invoke($value)
     {
         $arr = [];
 

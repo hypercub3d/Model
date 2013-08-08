@@ -2,7 +2,7 @@
 
 namespace Model\Configurator\DocComment\Vo\Tag;
 use Model\Configurator\DocComment\DocTagInterface;
-use Model\Entity\Entity;
+use Model\Entity\EntityInterface;
 use ReflectionProperty;
 
 class Vo
@@ -11,7 +11,7 @@ class Vo
 
     private static $valueCache = [];
 
-    public function __invoke(DocTagInterface $tag, ReflectionProperty $property, Entity $entity)
+    public function __invoke(DocTagInterface $tag, ReflectionProperty $property, EntityInterface $entity)
     {
         $name     = $property->getName();
         $cacheKey = get_class($entity) . $name . $tag->getValue();
@@ -23,15 +23,12 @@ class Vo
             $class = self::$classCache[$cacheKey] = $this->generateClass($tag, $entity);
             $value = self::$valueCache[$cacheKey] = $this->generateValue($property);
         }
-        
-        $entity->setVo($name, $class);
 
-        if ($value !== null) {
-            $entity->__set($name, $value);
-        }
+        $entity->value($name, $class);
+        $entity->__set($name, $value);
     }
 
-    private function generateClass(DocTagInterface $tag, Entity $entity)
+    private function generateClass(DocTagInterface $tag, EntityInterface $entity)
     {
         $parts = preg_split('/\s+/', $tag->getValue(), 2);
         $class = function() use ($parts) {
@@ -40,10 +37,10 @@ class Vo
             } else {
                 $class = new $parts[0];
             }
-            
+
             return $class;
         };
-        
+
         $class = $class->bindTo($entity);
         $class = $class();
 

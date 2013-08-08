@@ -3,20 +3,15 @@
 namespace Model\Entity;
 use ArrayAccess;
 use Countable;
-use Iterator;
+use IteratorAggregate;
+use Model\Validator\AssertableInterface;
 use Serializable;
 
-interface AccessibleInterface extends ArrayAccess, Countable, Iterator, Serializable
+interface AccessibleInterface extends ArrayAccess, AssertableInterface, Countable, IteratorAggregate, Serializable
 {
-    public function clear();
+  public function clear();
 
-    public function fill($data, $mapper = null);
+  public function from($data, $filter = null);
 
-    public function toArray($mapper = null);
-
-    public function from($data, $filter = null);
-
-    public function to($filter = null);
-
-    public function validate();
+  public function to($filter = null);
 }

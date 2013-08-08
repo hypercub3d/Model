@@ -2,7 +2,7 @@
 
 namespace Model\Vo;
 
-class Filter extends VoAbstract
+class Filter
 {
     private $cb;
 
@@ -11,7 +11,7 @@ class Filter extends VoAbstract
         $this->cb = $cb;
     }
 
-    public function translate($value)
+    public function __invoke($value)
     {
         $cb = $this->cb;
         return $cb($value);

@@ -2,14 +2,9 @@
 
 namespace Model\Vo;
 
-class Boolean extends VoAbstract
+class Boolean
 {
-    public function init()
-    {
-        return false;
-    }
-
-    public function translate($value)
+    public function __invoke($value)
     {
         $lower = strtolower($value);
 
