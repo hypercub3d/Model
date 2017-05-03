@@ -39,7 +39,8 @@ class Memcache implements CacheInterface
     }
     
     /**
-     * Sets an item in the cache.
+     * Adds an item in the cache.
+     * Does not update an existing item.
      * 
      * @param string $key      The cache key.
      * @param mixed  $value    The cached value.
@@ -47,12 +48,29 @@ class Memcache implements CacheInterface
      * 
      * @return Memcache
      */
-    public function set($key, $value, $lifetime = null)
+    public function add($key, $value, $lifetime = null)
     {
         $this->memcache->add($key, $value, false, $lifetime);
+
         return $this;
     }
-    
+
+    /**
+     * Sets an item in the cache.
+     *
+     * @param string $key      The cache key.
+     * @param mixed  $value    The cached value.
+     * @param mixed  $lifetime The max lifetime of the item in the cache.
+     *
+     * @return Memcache
+     */
+    public function set($key, $value, $lifetime = null)
+    {
+        $this->memcache->set($key, $value, false, $lifetime);
+
+        return $this;
+    }
+
     /**
      * Returns an item from the cache.
      * 
