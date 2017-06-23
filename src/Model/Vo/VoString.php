@@ -2,7 +2,7 @@
 
 namespace Model\Vo;
 
-class String extends VoAbstract
+class VoString extends VoAbstract
 {
     public function init()
     {

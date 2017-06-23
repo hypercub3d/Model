@@ -2,7 +2,7 @@
 
 namespace Model\Vo;
 
-class Float extends VoAbstract
+class VoFloat extends VoAbstract
 {
     public function init()
     {
